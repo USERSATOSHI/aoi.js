@@ -5,11 +5,11 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
-  "type": "commonjs",
+  "type": "module",
   "exports": {
-	"import": "./dist/esm/index.js",
-	"require": "./dist/cjs/index.js",
-	"types": "./dist/types/index.d.ts"
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.js",
+    "types": "./dist/types/index.d.ts"
   },
   "engines": {
     "node": ">=20.x"
@@ -44,6 +44,12 @@
   },
   "readme": "https://github.com/Aoijs/aoi.js/blob/main/README.md",
   "dependencies": {
-    "@aoijs/structures": "workspace:^"
+    "@js-sdsl/deque": "^4.4.2",
+    "@js-sdsl/ordered-map": "^4.4.2",
+    "mnemonist": "^0.39.8",
+    "murmurhash": "^2.0.1",
+    "tar": "^7.4.3",
+    "tiny-typed-emitter": "^2.1.0",
+    "xxhash-wasm": "^1.0.2"
   }
 }
