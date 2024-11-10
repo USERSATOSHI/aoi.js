@@ -171,3 +171,11 @@ export function toBigInt(value: unknown) {
 	if (res.success) return res.data;
 	return 0n;
 }
+
+export function objectExists(variable: unknown) {
+	try {
+		return typeof variable === 'object';
+	} catch {
+		return false;	
+	}
+}

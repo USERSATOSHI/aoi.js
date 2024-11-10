@@ -41,7 +41,7 @@ function defaultValueBasedOnType(type) {
 		case 16:
 			return true;
 		case 32:
-			return {};
+			return JSON.stringify({ a: 1 });
 		case 2:
 			return 'test';
 		case 1:
@@ -65,7 +65,8 @@ async function _generateTests(fnPath) {
 	// fnPath = fnPath.replace('.ts', '.js');
 	fnPath = pathToFileURL(fnPath);
 
-	const module = (await import(fnPath));
+	const module = await import(fnPath);
+	console.log(`Generating tests for ${fn}`);
 	let testString = baseFile(fn);
 	const object = module[fn];
 	let hasCodeToFail = false;
@@ -106,7 +107,8 @@ const codeToPass = '${fn}';
 
 	testString += `
 void describe('${fn}', () => {
-	${hasCodeToFail
+	${
+	hasCodeToFail
 		? `void it('should not compile successfully without arg', () => {
 		// expect this to throw an error
 		assert.throws(() => {
@@ -116,7 +118,8 @@ void describe('${fn}', () => {
 		: ''
 }
 
-	${hasCodeToPass
+	${
+	hasCodeToPass
 		? `void it('should compile successfully without arg', () => {
 		const func = client.transpiler.transpile(codeToPass, transpilerOptions);
 		assert.ok(func);
@@ -125,7 +128,8 @@ void describe('${fn}', () => {
 		: ''
 }
 
-	${hasCodeToPassWithArg
+	${
+	hasCodeToPassWithArg
 		? `void it('should compile successfully with arg', () => {
 		const func = client.transpiler.transpile(codeToPassWithArg, transpilerOptions);
 		assert.ok(func);
@@ -141,7 +145,7 @@ void describe('${fn}', () => {
 
 /**
  * Generate tests for all files in a directory
- * @param {string} fpath - The path to the directory 
+ * @param {string} fpath - The path to the directory
  */
 export async function generateTest(fpath) {
 	if (!existsSync(fpath))

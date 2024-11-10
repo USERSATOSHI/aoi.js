@@ -97,4 +97,9 @@ export enum ErrorCode {
 	MissingMacroName,
 	MissingMacroCode,
 	FileNotFound,
+
+
+	ObjectAlreadyExists,
+	ObjectDoesNotExist,
+	InvalidEnv,
 }
