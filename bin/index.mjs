@@ -12,6 +12,7 @@ import add from './add.mjs';
 import addLicense from './addLicense.mjs';
 import run from './run.mjs';
 import genTest from './genTest.mjs';
+import { init } from './init.mjs';
 
 program
 	.command('test')
@@ -70,6 +71,12 @@ program
 	.requiredOption('-l, --library <library>', 'the library to test')
 	.requiredOption('-f, --folder <folder>', 'the folder to test')
 	.action(genTest);
+
+program
+	.command('init')
+	.description('initialize the given library')
+	.requiredOption('-l, --library <library>', 'the library to initialize')
+	.action(init);
 
 program
 	.name(pkg.name)
