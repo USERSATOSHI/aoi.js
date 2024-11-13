@@ -1,3 +1,6 @@
+/* eslint-disable no-constant-condition */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/semi */
 import FunctionBuilder from '@aoi.js/core/builders/Function.js';
 import { parseCondition } from '@aoi.js/core/parsers/condition.js';
 import Transpiler from '@aoi.js/core/Transpiler.js';
@@ -87,12 +90,10 @@ const $if = new FunctionBuilder()
 		currentScope.packages += codeScope.packages + '\n';
 
 		const result = thisArg.getResultString(() => {
-			// eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error, @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			// eslint-disable-next-line no-constant-condition
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			//@ts-ignore
 			if ('$0') {
-				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-				('$1');
+				'$1'
 			}
 		}, [conditionToCheck, codeResult]);
 

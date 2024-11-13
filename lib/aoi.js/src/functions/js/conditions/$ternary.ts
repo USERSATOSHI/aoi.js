@@ -5,6 +5,18 @@ import { parseString } from '@aoi.js/core/parsers/string.js';
 import { ErrorCode, FunctionType, ReturnType } from '@aoi.js/typings/enum.js';
 import { escapeResult } from '@aoi.js/utils/Helpers/core.js';
 
+/**
+ * Executes the code based on the condition
+ * @example
+ * ```aoi
+ * ---
+ * name: ternary
+ * type: basic
+ * ---
+ * 
+ * $ternary[$message[1]==hi; hello; goodbye] // returns hello if the message is hi, otherwise goodbye
+ * ```
+ */
 const $ternary = new FunctionBuilder()
 	.setName('$ternary')
 	.setBrackets(true)

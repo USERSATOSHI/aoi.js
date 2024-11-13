@@ -66,7 +66,6 @@ const $authoravatar = new FunctionBuilder()
 			!thisArg.isCorrectType(parsedDyanmic, ReturnType.Boolean) &&
 			!thisArg.canSuppressAtComp(data, currentScope)
 		) {
-			console.log({ dynamic, parsedDyanmic });
 			throw AoiError.FunctionError(
 				ErrorCode.InvalidArgumentType,
 				`Invalid type for parameter 'dynamic' in function $authorAvatar, got ${parsedDyanmic} expected: boolean.`,

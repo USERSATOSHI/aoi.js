@@ -102,4 +102,5 @@ export enum ErrorCode {
 	ObjectAlreadyExists,
 	ObjectDoesNotExist,
 	InvalidEnv,
+	VariableNotFound,
 }

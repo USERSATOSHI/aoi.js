@@ -1,6 +1,6 @@
 import FunctionBuilder from '@aoi.js/core/builders/Function.js';
 import { FunctionType, ReturnType } from '@aoi.js/typings/enum.js';
-import { escapeResult } from '@aoi.js/utils/Helpers/core.js';
+import { escapeResult, safe, safeAsync, safeSync } from '@aoi.js/utils/Helpers/core.js';
 import { toString } from '@aoi.js/utils/Helpers/functions.js';
 
 const $tostring = new FunctionBuilder()
@@ -22,12 +22,20 @@ const $tostring = new FunctionBuilder()
 		const [value] = thisArg.getParams(data);
 
 		if (!currentScope.hasPkg('UTIL')) {
-			currentScope.addPkg('UTIL', 'import * as UTIL from \'node:util\';');
+			currentScope.addPkg('UTIL', 'const UTIL = await import(\'node:util\');');
 		}
 		
-		if (thisArg.hasFunction(currentScope, toString.name)) {
+		if (!thisArg.hasFunction(currentScope, toString.name)) {
 			thisArg.addFunction(currentScope, toString);
 		}
+
+		if (!thisArg.hasFunction(currentScope, safe.name)) {
+			thisArg.addFunction(currentScope, safe);
+			thisArg.addFunction(currentScope, safeSync);
+			thisArg.addFunction(currentScope, safeAsync);
+		}
+
+
 
 		const escaped = escapeResult(
 			thisArg.getResultString(

@@ -41,11 +41,11 @@ const $round = new FunctionBuilder()
 
 		const [number, decimals = '0'] = thisArg.getParams(data);
 
-		const parsedDecimal = Number(decimals ?? 2);
-		const parsedNumber = Number(number);
+		const parsedDecimal = thisArg.parseData(decimals, ReturnType.Number);
+		const parsedNumber = thisArg.parseData(number, ReturnType.Number);
 
 		if (
-			isNaN(parsedNumber) &&
+			!thisArg.isCorrectType(parsedNumber, ReturnType.Number) &&
 			!thisArg.canSuppressAtComp(data, currentScope)
 		) {
 			throw AoiError.FunctionError(
@@ -56,7 +56,7 @@ const $round = new FunctionBuilder()
 		}
 
 		if (
-			isNaN(parsedDecimal) &&
+			!thisArg.isCorrectType(parsedDecimal, ReturnType.Number) &&
 			!thisArg.canSuppressAtComp(data, currentScope)
 		) {
 			throw AoiError.FunctionError(

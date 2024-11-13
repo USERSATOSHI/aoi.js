@@ -170,6 +170,9 @@ export default class FunctionBuilder implements IFunctionData {
 
 		let bodyWithoutArg = body.replace(matchWholeArgwithAsync, '');
 
+		// remove all //comments
+		bodyWithoutArg = bodyWithoutArg.replace(/\/\/.*/g, '');
+
 		if (arg !== '') {
 			bodyWithoutArg = this.#replaceArgInFunctionStringWithVar(
 				bodyWithoutArg,

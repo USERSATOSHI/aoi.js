@@ -62,7 +62,6 @@ export function _getObjectAst(
 
 	while (i < objectString.length) {
 		const char = objectString[i];
-		// console.log(char)
 		if (char === '{' || char === '[') {
 			const newObject = new StringObject(char, currentObject);
 			currentObject.addValue(`#StringObject_${newObject.name}#`);

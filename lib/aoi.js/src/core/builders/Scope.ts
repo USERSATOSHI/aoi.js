@@ -25,6 +25,7 @@ export default class Scope {
 	stickers: unknown[] = [];
 	env: string[];
 	ephemeral = false;
+	addExecutionTime = false;
 	variables: string[];
 	setters: string;
 	objects: Record<string, StringObject>;
@@ -208,6 +209,7 @@ export default class Scope {
 	generate(code: string, sendMessage = true, asFunction = true) {
 		if (sendMessage)
 			for (const part of this._contentParts) {
+				if (part.trim() === '') continue;
 				code = code.replace(part, '');
 			}
 
@@ -277,10 +279,15 @@ export default class Scope {
 		`
 			: '';
 
+		const addExecution = this.addExecutionTime
+			? `let __$${this.name}_EXECUTION_TIME$__ = performance.now();`
+			: '';
+
 		return parseResult(
 			asFunction
 				? `
 	  async function ${this.name === 'global' ? 'main' : this.name}(__$DISCORD_DATA$__) {
+			${addExecution}
 			${initialVars}
 			${this.packages}
 			${this.functions}
@@ -289,6 +296,7 @@ export default class Scope {
 	}
 		`.replaceAll(TranspilerCustoms.SL, '\\`')
 				: `
+			${addExecution}
 			${initialVars}
 			${this.packages}
 			${this.functions}

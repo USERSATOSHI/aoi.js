@@ -323,6 +323,7 @@ export default class Transpiler {
 		const scope = scopes.at(-1)!;
 		if (sendMessage) {
 			for (const part of scope._contentParts) {
+				if (part.trim() === '') continue;
 				ast.executed = ast.executed.replace(part, '');
 			}
 		}
@@ -442,7 +443,7 @@ export default class Transpiler {
 			);
 		}
 
-		return { func, ast, result, scope: globalScope, functionList };
+		return { func, ast, result, scope: globalScope };
 	}
 
 	addFunctions(functions: Record<string, IFunctionData>) {
