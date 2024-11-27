@@ -18,12 +18,12 @@ import {
  * @example
  * ```aoi
  * ---
- * name: let
+ * name: letget
  * type: basic
  * ---
  *
- * $let[variable;value]
- * $get[variable] // value
+ * $let[v;value]
+ * $get[v] // returns value
  * ```
  */
 const $let = new FunctionBuilder()

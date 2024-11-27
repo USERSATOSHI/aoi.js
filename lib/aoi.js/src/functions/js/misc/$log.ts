@@ -2,8 +2,21 @@ import FunctionBuilder from '@aoi.js/core/builders/Function.js';
 import AoiError from '@aoi.js/core/Error.js';
 import { fixMath } from '@aoi.js/core/parsers/math.js';
 import { parseString } from '@aoi.js/core/parsers/string.js';
-import { ErrorCode, FunctionType, ReturnType } from '@aoi.js/typings/enum.js';
-import { escapeResult } from '@aoi.js/utils/Helpers/core.js';
+import {
+	ErrorCode,
+	FunctionType,
+	ReturnType,
+	TranspilerCustoms,
+} from '@aoi.js/typings/enum.js';
+import {
+	escapeResult,
+	parseData,
+	stringify,
+} from '@aoi.js/utils/Helpers/core.js';
+
+// regex to remove everything inside the #FUNCTION_START# and #FUNCTION_END# tags
+const regex =
+	/((#FUNCTION_START#([$a-z.0-9\s?(){}[\]._:'"`;=><,!\-`@/]|\n)+#FUNCTION_END#)|(__\$[a-z_?.()]+\$__))/gim;
 
 /**
  * Logs the message to the console
@@ -13,7 +26,7 @@ import { escapeResult } from '@aoi.js/utils/Helpers/core.js';
  * name: log
  * type: basic
  * ---
- * 
+ *
  * $log[Hello World] // Logs Hello World to the console
  * ```
  */
@@ -43,14 +56,29 @@ const $log = new FunctionBuilder()
 			);
 		}
 
-		const parsed = parseString(fixMath(message));
+		let parsed = parseData(message);
 
-		const resultString = thisArg.getResultString(
-			() => {
-				console.log('$0'); 
-			},
-			[parsed],
-		);
+		if (
+			typeof parsed === 'string' &&
+			((![
+				TranspilerCustoms.FS,
+				TranspilerCustoms.FFS,
+				TranspilerCustoms.MFS,
+			].some((x) => (parsed as string).startsWith(x)) &&
+				![
+					TranspilerCustoms.FE,
+					TranspilerCustoms.FFE,
+					TranspilerCustoms.MFE,
+				].some((x) => (parsed as string).endsWith(x))) ||
+				(parsed.match(regex)?.length ?? 0) > 1)
+		)
+			parsed = parseString(fixMath(parsed));
+
+		parsed = stringify(parsed);
+
+		const resultString = thisArg.getResultString(() => {
+			console.log('$0');
+		}, [parsed]);
 
 		const escaped = escapeResult(resultString);
 

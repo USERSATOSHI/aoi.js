@@ -4,6 +4,21 @@ import Transpiler from '@aoi.js/core/Transpiler.js';
 import { ErrorCode, FunctionType, ReturnType } from '@aoi.js/typings/enum.js';
 import { escapeResult } from '@aoi.js/utils/Helpers/core.js';
 
+/**
+ * Loops through a range of numbers
+ * @example
+ * ```aoi
+ * ---
+ * name: for
+ * type: basic
+ * ---
+ * 
+ * $for[1;10;1;
+ * 	$log[Current number: $1]
+ * ]
+ * // logs numbers from 1 to 10
+ * ```
+ */
 const $for = new FunctionBuilder()
 	.setName('$for')
 	.setBrackets(true)

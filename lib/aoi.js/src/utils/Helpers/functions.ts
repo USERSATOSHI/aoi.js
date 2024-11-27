@@ -1,5 +1,7 @@
+import type { AsyncFunction, Safe } from '@aoi.js/typings/type.js';
 import { parseResult, safe } from './core.js';
 import * as UTIL from 'node:util';
+import type { IErr, IOk } from '@aoi.js/typings/interface.js';
 
 export function isMathExpression(expression: string): boolean {
 	expression = parseResult(expression.trim());
@@ -147,7 +149,11 @@ export function nthRoot(x: number, n: number): number {
 	else return NaN;
 }
 
-export function randomFromRange(min: number, max: number, allowDecimal: boolean) {
+export function randomFromRange(
+	min: number,
+	max: number,
+	allowDecimal: boolean,
+) {
 	if (allowDecimal) {
 		return Math.random() * (max - min) + min;
 	} else {
@@ -157,6 +163,14 @@ export function randomFromRange(min: number, max: number, allowDecimal: boolean)
 
 export function toString(value: unknown) {
 	if (typeof value === 'object') {
+		if (value === null) return 'null';
+		if ('success' in value && 'error' in value)
+			return JSON.stringify({
+				success: value.success,
+				error:
+					(value.error as Error).message,
+			});
+		if (value instanceof Error) return value.message;
 		const res = safe(() => JSON.stringify(value));
 		if (res.success) return res.data;
 
@@ -167,7 +181,7 @@ export function toString(value: unknown) {
 }
 
 export function toBigInt(value: unknown) {
-	const res =  safe(() => BigInt(value as string));
+	const res = safe(() => BigInt(value as string));
 	if (res.success) return res.data;
 	return 0n;
 }
@@ -176,6 +190,32 @@ export function objectExists(variable: unknown) {
 	try {
 		return typeof variable === 'object';
 	} catch {
-		return false;	
+		return false;
 	}
+}
+
+export async function jsEval(code: string) {
+	try {
+		const evaled = (await eval(code)) as unknown;
+		return evaled;
+	} catch (error) {
+		return error;
+	}
+}
+
+// implement result type
+export async function wrap<T, E>(promise: Promise<T>): Promise<Safe<T, E>> {
+	return promise
+		.then((data) => {
+			return {
+				success: true,
+				data: data,
+			} satisfies IOk<T>;
+		})
+		.catch((e) => {
+			return {
+				success: false,
+				error: e as E,
+			} satisfies IErr<E>;
+		});
 }

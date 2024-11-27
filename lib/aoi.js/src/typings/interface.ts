@@ -146,3 +146,9 @@ export interface IMacroOptions {
 	name: string;
 	code: string | AsyncFunction;
 }
+
+export interface IDateTimeOptions {
+	hour12: boolean;
+	timezone: string;
+	locale: string;
+}

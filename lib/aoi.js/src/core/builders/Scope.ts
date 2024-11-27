@@ -4,7 +4,7 @@ import {
 	FunctionType,
 	TranspilerCustoms,
 } from '@aoi.js/typings/enum.js';
-import { type ICodeFunctionData } from '@aoi.js/typings/interface.js';
+import { type ICodeFunctionData, type IDateTimeOptions } from '@aoi.js/typings/interface.js';
 import {
 	escapeResult,
 	escapeVars,
@@ -39,6 +39,12 @@ export default class Scope {
 	useChannel?: bigint | string;
 	embeddedJS: string[] = [];
 	packages = '';
+	dateTimeOptions: IDateTimeOptions = {
+		timezone: 'UTC',
+		locale: 'en-US',
+		hour12: false,
+	};
+
 	client: AoiClient;
 	constructor(
 		name: string,
@@ -185,6 +191,7 @@ export default class Scope {
 		scope.useChannel = this.useChannel;
 		scope.embeddedJS = this.embeddedJS;
 		scope.packages = this.packages;
+		scope.dateTimeOptions = this.dateTimeOptions;
 		return scope;
 	}
 
@@ -203,6 +210,7 @@ export default class Scope {
 		this.addReturn = this.addReturn || scope.addReturn;
 		this.useChannel = scope.useChannel ?? this.useChannel;
 		this.embeddedJS.push(...scope.embeddedJS);
+		this.dateTimeOptions = { ...this.dateTimeOptions, ...scope.dateTimeOptions };
 		this.packages += scope.packages;
 	}
 

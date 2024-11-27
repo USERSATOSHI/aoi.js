@@ -103,4 +103,5 @@ export enum ErrorCode {
 	ObjectDoesNotExist,
 	InvalidEnv,
 	VariableNotFound,
+	InvalidTimeZone,
 }

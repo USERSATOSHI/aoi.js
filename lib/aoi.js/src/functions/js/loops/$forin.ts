@@ -13,13 +13,13 @@ import { escapeResult } from '@aoi.js/utils/Helpers/core.js';
  * type: basic
  * ---
  * 
+ * $createObject[hi;\{ a: b, c: d \}]
  * $forin[key;hi; 
  * 	$log[
  * 		key -\> $env[key]
  * 		value -\> $getObjectProperty[hi; $env[key]]
  * 	]
  * ] // logs the key and value of the object
- * $createObject[hi;\{ a: b, c: d \}]
  * ```
  */
 const $forin = new FunctionBuilder()
