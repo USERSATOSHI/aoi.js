@@ -22,8 +22,8 @@ import { isValidDateLocale } from '@aoi.js/utils/Helpers/timeformat.js';
  */
 const $datelocale = new FunctionBuilder()
 	.setName('$datelocale')
-	.setBrackets(false)
-	.setOptional(false)
+	.setBrackets(true)
+	.setOptional(true)
 	.setType(FunctionType.Getter)
 	.setReturns(ReturnType.String)
 	.setFields([

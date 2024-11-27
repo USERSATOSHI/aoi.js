@@ -22,8 +22,8 @@ import { isValidTimeZone } from '@aoi.js/utils/Helpers/timeformat.js';
  */
 const $timezone = new FunctionBuilder()
 	.setName('$timezone')
-	.setBrackets(false)
-	.setOptional(false)
+	.setBrackets(true)
+	.setOptional(true)
 	.setType(FunctionType.Getter)
 	.setReturns(ReturnType.String)
 	.setFields([
